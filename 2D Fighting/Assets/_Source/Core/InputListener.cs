@@ -6,7 +6,8 @@ using Zenject;
 
 public class InputListener : MonoBehaviour
 {
-    [SerializeField] private PlayerIconsView _iconsView;
+    [SerializeField] private PlayerIconsView _playerIconsView;
+    [SerializeField] private EnemyIconsView _enemyIconsView;
 
     private PlayerStateMachine _playerStateMachine;
 
@@ -25,19 +26,34 @@ public class InputListener : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    _iconsView.SetStrongQOnCooldawn();
+                    if(_enemyIconsView.IsQTrigger)
+                    {
+                        _playerIconsView.AddCharge();
+                        _enemyIconsView.SetTrigger();
+                    }
+                    _playerIconsView.SetStrongQOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(QState), 2);
                 }
 
                 if (Input.GetKeyDown(KeyCode.W))
                 {
-                    _iconsView.SetStrongWOnCooldawn();
+                    if (_enemyIconsView.IsWTrigger)
+                    {
+                        _playerIconsView.AddCharge();
+                        _enemyIconsView.SetTrigger();
+                    }
+                    _playerIconsView.SetStrongWOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(WState), 2);
                 }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    _iconsView.SetStrongEOnCooldawn();
+                    if (_enemyIconsView.IsETrigger)
+                    {
+                        _playerIconsView.AddCharge();
+                        _enemyIconsView.SetTrigger();
+                    }
+                    _playerIconsView.SetStrongEOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(EState), 2);
                 }
             }
@@ -45,25 +61,25 @@ public class InputListener : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    _iconsView.SetQOnCooldawn();
+                    _playerIconsView.SetQOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(QState));
                 }
 
                 if (Input.GetKeyDown(KeyCode.W))
                 {
-                    _iconsView.SetWOnCooldawn();
+                    _playerIconsView.SetWOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(WState));
                 }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    _iconsView.SetEOnCooldawn();
+                    _playerIconsView.SetEOnCooldawn();
                     _playerStateMachine.ChangeState(typeof(EState));
                 }
 
-                if (Input.GetKeyDown(KeyCode.R))
+                if (Input.GetKeyDown(KeyCode.R) && _playerIconsView.RCharges == 3)
                 {
-                    _iconsView.SetROnCooldawn();
+                    _playerIconsView.SetROnCooldawn();
                     _playerStateMachine.ChangeState(typeof(RState));
                 }
             }

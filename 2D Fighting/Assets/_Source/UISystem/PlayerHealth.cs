@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ namespace UISystem
         {
             if (_upperSlider.value < _lowerSlider.value)
             {
-                _lowerSlider.value -= 0.05f;
+                _lowerSlider.value -= 0.2f;
             }
             else
             {
@@ -37,6 +38,15 @@ namespace UISystem
         {
             _isDecreasingDamage = isDecrease;
             _decreaseDamagePercent = decreaseDamagePercentage;
+        }
+
+        public IEnumerator DealTickDamage(int damage)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                DealDamage(damage);
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }

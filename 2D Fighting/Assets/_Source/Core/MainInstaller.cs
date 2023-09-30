@@ -10,8 +10,10 @@ namespace Core
         [SerializeField] private Animator _playerAnimator;
         [SerializeField] private Animator _enemyAnimator;
 
+        [SerializeField] private Bootstrapper _bootstrapper;
         [SerializeField] private PlayerHealth _playerHealth;
         [SerializeField] private EnemyHealth _enemyHealth;
+        [SerializeField] private EnemyIconsView _enemyIconsView;
 
         [Header("Player Float")]
         [SerializeField] private float _playerAttackTime;
@@ -30,9 +32,13 @@ namespace Core
 
         [Header("Enemy Float")]
         [SerializeField] private float _enemyAttackTime;
+        [SerializeField] private float _enemySpecialTime;
+        [SerializeField] private float _enemyWebTime;
 
         [Header("Enemy Int")]
         [SerializeField] private int _enemyAttackDamage;
+        [SerializeField] private int _enemySpecialDamage;
+        [SerializeField] private int _enemyWebDuration;
 
         public override void InstallBindings()
         {
@@ -107,9 +113,19 @@ namespace Core
                 .WithId(BindId.ENEMY)
                 .FromInstance(_enemyAnimator)
                 .NonLazy();
+            
+            Container.Bind<Bootstrapper>()
+                 .FromInstance(_bootstrapper)
+                 .AsSingle()
+                 .NonLazy();
 
             Container.Bind<EnemyHealth>()
                 .FromInstance(_enemyHealth)
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<EnemyIconsView>()
+                .FromInstance(_enemyIconsView)
                 .AsSingle()
                 .NonLazy();
 
@@ -118,9 +134,29 @@ namespace Core
                 .FromInstance(_enemyAttackTime)
                 .NonLazy();
 
+            Container.Bind<float>()
+                .WithId(BindId.ENEMY_SPECIAL_STATE)
+                .FromInstance(_enemySpecialTime)
+                .NonLazy();
+
+            Container.Bind<float>()
+                .WithId(BindId.ENEMY_WEB_STATE)
+                .FromInstance(_enemyWebTime)
+                .NonLazy();
+
             Container.Bind<int>()
                 .WithId(BindId.ENEMY_ATTACK_STATE)
                 .FromInstance(_enemyAttackDamage)
+                .NonLazy();
+
+            Container.Bind<int>()
+                .WithId(BindId.ENEMY_SPECIAL_STATE)
+                .FromInstance(_enemySpecialDamage)
+                .NonLazy();
+
+            Container.Bind<int>()
+                .WithId(BindId.ENEMY_WEB_STATE)
+                .FromInstance(_enemyWebDuration)
                 .NonLazy();
             #endregion
             #region PlayerStates
@@ -172,6 +208,18 @@ namespace Core
                 .To<EnemyStunState>()
                 .AsSingle()
                 .NonLazy();
+
+            Container.Bind<AState>()
+                .WithId(BindId.ENEMY_SPECIAL_STATE)
+                .To<EnemySpecialState>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<AState>()
+                .WithId(BindId.ENEMY_WEB_STATE)
+                .To<EnemyWebState>()
+                .AsSingle()
+                .NonLazy();
             #endregion
             #region StateMachines
             Container.Bind<IStateMachine>()
@@ -205,5 +253,7 @@ namespace Core
 
         public const int ENEMY_ATTACK_STATE = 9;
         public const int ENEMY_STUN_STATE = 10;
+        public const int ENEMY_SPECIAL_STATE = 11;
+        public const int ENEMY_WEB_STATE = 12;
     }
 }

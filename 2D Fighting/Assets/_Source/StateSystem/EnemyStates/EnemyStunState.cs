@@ -17,7 +17,7 @@ namespace StateSystem
 
         public override void Enter(float value = 0)
         {
-            _enemyAnimator.SetInteger("State", BindId.STUN_STATE);
+            _enemyAnimator.SetInteger("State", BindId.ENEMY_STUN_STATE);
             _currentTime = value;
         }
 

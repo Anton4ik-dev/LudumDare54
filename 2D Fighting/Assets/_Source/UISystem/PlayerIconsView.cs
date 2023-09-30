@@ -38,6 +38,10 @@ namespace UISystem
         private float _wCurrentTime;
         private float _eCurrentTime;
 
+        private int _rCharges;
+
+        public int RCharges => _rCharges;
+
         private void Update()
         {
             if(_isQOnCooldawn)
@@ -143,6 +147,16 @@ namespace UISystem
         public void SetROnCooldawn()
         {
             _rIcon.color = _grey;
+            _rCharges = 0;
+        }
+
+        public void AddCharge()
+        {
+            _rCharges++;
+            if(_rCharges == 3)
+            {
+                _rIcon.color = _default;
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace StateSystem
             [Inject(Id = BindId.R_STATE)] float attackTime,
             [Inject(Id = BindId.R_STATE)] int damage,
             EnemyHealth enemyHealth,
-            [Inject(Id = BindId.R_STATE)] float stunDuration,
+            [Inject(Id = BindId.R_STATE_STUN)] float stunDuration,
             [Inject(Id = BindId.ENEMY)] IStateMachine enemyStateMachine)
         {
             _playerAnimator = playerAnimator;
@@ -34,7 +34,7 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _playerAnimator.SetInteger("State", BindId.R_STATE);
-            _enemyStateMachine.ChangeState(typeof(StunState), _stunDuration);
+            _enemyStateMachine.ChangeState(typeof(EnemyStunState), _stunDuration);
             _currentTime = _attackTime;
         }
 
