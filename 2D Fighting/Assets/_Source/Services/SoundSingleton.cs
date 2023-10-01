@@ -1,29 +1,28 @@
+using Core;
 using ScriptableObjects;
 using UnityEngine;
+using Zenject;
 
 namespace SoundSystem
 {
-    public class SoundSingleton : MonoBehaviour
+    public class SoundSingleton
     {
-        [SerializeField] private AudioSource _audioSource;
+        private AudioSource _playerAudioSource;
+        private AudioSource _enemyAudioSource;
         public SoundSO SoundSo;
 
-        public static SoundSingleton Instance { get; private set; } = null;
+        public static SoundSingleton Instance { get; private set; }
 
-        private void Awake()
+        [Inject]
+        public SoundSingleton([Inject(Id = BindId.PLAYER)] AudioSource playerAudioSource, [Inject(Id = BindId.ENEMY)] AudioSource enemyAudioSource, SoundSO soundSo)
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-
-            DontDestroyOnLoad(gameObject);
+            _playerAudioSource = playerAudioSource;
+            _enemyAudioSource = enemyAudioSource;
+            SoundSo = soundSo;
+            Instance = this;
         }
 
-        public void PlayOneShot(AudioClip clip) => _audioSource.PlayOneShot(clip);
+        public void PlayOneShotPlayer(AudioClip clip) => _playerAudioSource.PlayOneShot(clip);
+        public void PlayOneShotEnemy(AudioClip clip) => _enemyAudioSource.PlayOneShot(clip);
     }
 }

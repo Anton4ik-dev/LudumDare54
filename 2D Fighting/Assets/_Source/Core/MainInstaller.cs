@@ -1,3 +1,5 @@
+using ScriptableObjects;
+using SoundSystem;
 using StateSystem;
 using UISystem;
 using UnityEngine;
@@ -7,12 +9,18 @@ namespace Core
 {
     public class MainInstaller : MonoInstaller
     {
+        [SerializeField] private AudioSource _playerAudioSource;
+        [SerializeField] private AudioSource _enemyAudioSource;
+        [SerializeField] private SoundSO _soundSo;
+        
         [SerializeField] private Animator _playerAnimator;
         [SerializeField] private Animator _enemyAnimator;
 
-        [SerializeField] private Bootstrapper _bootstrapper;
+        [SerializeField] private Game _game;
+
         [SerializeField] private PlayerHealth _playerHealth;
         [SerializeField] private EnemyHealth _enemyHealth;
+
         [SerializeField] private EnemyIconsView _enemyIconsView;
 
         [Header("Player Float")]
@@ -21,24 +29,25 @@ namespace Core
         [SerializeField] private float _playerWTime;
         [SerializeField] private float _playerETime;
         [SerializeField] private float _playerRTime;
-        [SerializeField] private float _playerRStunTime;
 
         [Header("Player Int")]
         [SerializeField] private int _playerAttackDamage;
         [SerializeField] private int _playerQDamage;
         [SerializeField] private int _playerWDecreasePercentage;
         [SerializeField] private int _playerEStunTime;
-        [SerializeField] private int _playerRDamage;
+        [SerializeField] private int _playerRStunDuration;
 
         [Header("Enemy Float")]
         [SerializeField] private float _enemyAttackTime;
         [SerializeField] private float _enemySpecialTime;
         [SerializeField] private float _enemyWebTime;
+        [SerializeField] private float _enemyUltTime;
 
         [Header("Enemy Int")]
         [SerializeField] private int _enemyAttackDamage;
         [SerializeField] private int _enemySpecialDamage;
         [SerializeField] private int _enemyWebDuration;
+        [SerializeField] private int _enemyUltStunDuration;
 
         public override void InstallBindings()
         {
@@ -78,11 +87,6 @@ namespace Core
                 .FromInstance(_playerRTime)
                 .NonLazy();
 
-            Container.Bind<float>()
-                .WithId(BindId.R_STATE_STUN)
-                .FromInstance(_playerRStunTime)
-                .NonLazy();
-
             Container.Bind<int>()
                 .WithId(BindId.ATTACK_STATE)
                 .FromInstance(_playerAttackDamage)
@@ -105,7 +109,7 @@ namespace Core
 
             Container.Bind<int>()
                 .WithId(BindId.R_STATE)
-                .FromInstance(_playerRDamage)
+                .FromInstance(_playerRStunDuration)
                 .NonLazy();
             #endregion
             #region EnemyVariables
@@ -114,8 +118,8 @@ namespace Core
                 .FromInstance(_enemyAnimator)
                 .NonLazy();
             
-            Container.Bind<Bootstrapper>()
-                 .FromInstance(_bootstrapper)
+            Container.Bind<Game>()
+                 .FromInstance(_game)
                  .AsSingle()
                  .NonLazy();
 
@@ -144,6 +148,11 @@ namespace Core
                 .FromInstance(_enemyWebTime)
                 .NonLazy();
 
+            Container.Bind<float>()
+                .WithId(BindId.ENEMY_ULT_STATE)
+                .FromInstance(_enemyUltTime)
+                .NonLazy();
+
             Container.Bind<int>()
                 .WithId(BindId.ENEMY_ATTACK_STATE)
                 .FromInstance(_enemyAttackDamage)
@@ -157,6 +166,11 @@ namespace Core
             Container.Bind<int>()
                 .WithId(BindId.ENEMY_WEB_STATE)
                 .FromInstance(_enemyWebDuration)
+                .NonLazy();
+
+            Container.Bind<int>()
+                .WithId(BindId.ENEMY_ULT_STATE)
+                .FromInstance(_enemyUltStunDuration)
                 .NonLazy();
             #endregion
             #region PlayerStates
@@ -220,6 +234,12 @@ namespace Core
                 .To<EnemyWebState>()
                 .AsSingle()
                 .NonLazy();
+
+            Container.Bind<AState>()
+                .WithId(BindId.ENEMY_ULT_STATE)
+                .To<EnemyUltState>()
+                .AsSingle()
+                .NonLazy();
             #endregion
             #region StateMachines
             Container.Bind<IStateMachine>()
@@ -231,6 +251,25 @@ namespace Core
             Container.Bind<IStateMachine>()
                 .WithId(BindId.ENEMY)
                 .To<EnemyStateMachine>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<AudioSource>()
+                .WithId(BindId.PLAYER)
+                .FromInstance(_playerAudioSource)
+                .NonLazy();
+
+            Container.Bind<AudioSource>()
+                .WithId(BindId.ENEMY)
+                .FromInstance(_enemyAudioSource)
+                .NonLazy();
+
+            Container.Bind<SoundSO>()
+                .FromInstance(_soundSo)
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<SoundSingleton>()
                 .AsSingle()
                 .NonLazy();
             #endregion
@@ -249,8 +288,7 @@ namespace Core
         public const int R_STATE = 6;
         public const int STUN_STATE = 7;
 
-        public const int R_STATE_STUN = 8;
-
+        public const int ENEMY_ULT_STATE = 8;
         public const int ENEMY_ATTACK_STATE = 9;
         public const int ENEMY_STUN_STATE = 10;
         public const int ENEMY_SPECIAL_STATE = 11;

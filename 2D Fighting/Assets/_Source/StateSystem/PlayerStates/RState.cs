@@ -10,7 +10,6 @@ namespace StateSystem
         private Animator _playerAnimator;
         private float _attackTime;
         private float _currentTime;
-        private int _damage;
         private EnemyHealth _enemyHealth;
         private float _stunDuration;
         private EnemyStateMachine _enemyStateMachine;
@@ -18,14 +17,12 @@ namespace StateSystem
         [Inject]
         public RState([Inject(Id = BindId.PLAYER)] Animator playerAnimator,
             [Inject(Id = BindId.R_STATE)] float attackTime,
-            [Inject(Id = BindId.R_STATE)] int damage,
             EnemyHealth enemyHealth,
-            [Inject(Id = BindId.R_STATE_STUN)] float stunDuration,
+            [Inject(Id = BindId.R_STATE)] int stunDuration,
             [Inject(Id = BindId.ENEMY)] IStateMachine enemyStateMachine)
         {
             _playerAnimator = playerAnimator;
             _attackTime = attackTime;
-            _damage = damage;
             _enemyHealth = enemyHealth;
             _stunDuration = stunDuration;
             _enemyStateMachine = (EnemyStateMachine)enemyStateMachine;
@@ -42,7 +39,7 @@ namespace StateSystem
         {
             if (_currentTime <= 0)
             {
-                _enemyHealth.DealDamage(_damage);
+                _enemyHealth.DealDamage(10000);
                 Owner.ChangeState(typeof(AttackState));
             }
             _currentTime -= Time.deltaTime;

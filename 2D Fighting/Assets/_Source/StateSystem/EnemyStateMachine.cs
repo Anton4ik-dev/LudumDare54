@@ -16,14 +16,16 @@ namespace StateSystem
         public EnemyStateMachine([Inject(Id = BindId.ENEMY_ATTACK_STATE)] AState attackState,
           [Inject(Id = BindId.ENEMY_STUN_STATE)] AState stunState,
           [Inject(Id = BindId.ENEMY_SPECIAL_STATE)] AState specialState,
-          [Inject(Id = BindId.ENEMY_WEB_STATE)] AState webState)
+          [Inject(Id = BindId.ENEMY_WEB_STATE)] AState webState,
+          [Inject(Id = BindId.ENEMY_ULT_STATE)] AState ultState)
         {
             _states = new Dictionary<Type, AState>()
             {
                 { typeof(EnemyAttackState), attackState },
                 { typeof(EnemyStunState), stunState },
                 { typeof(EnemySpecialState), specialState },
-                { typeof(EnemyWebState), webState }
+                { typeof(EnemyWebState), webState },
+                { typeof(EnemyUltState), ultState }
             };
 
             foreach (var state in _states)

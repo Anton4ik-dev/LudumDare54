@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ namespace UISystem
     {
         [SerializeField] private Slider _upperSlider;
         [SerializeField] private Slider _lowerSlider;
+        [SerializeField] private Game _game;
+        [SerializeField] private GameObject _winView;
 
         private void Update()
         {
@@ -23,6 +26,12 @@ namespace UISystem
         public void DealDamage(int damage)
         {
             _upperSlider.value -= damage;
+            if (_upperSlider.value <= 0)
+            {
+                // replica
+                _game.PauseGame();
+                _winView.SetActive(true);
+            }
         }
     }
 }

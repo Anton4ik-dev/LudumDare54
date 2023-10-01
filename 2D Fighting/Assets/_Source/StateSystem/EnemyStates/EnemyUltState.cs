@@ -5,7 +5,7 @@ using Zenject;
 
 namespace StateSystem
 {
-    public class EnemyWebState : AState
+    public class EnemyUltState : AState
     {
         private Animator _playerAnimator;
         private float _attackTime;
@@ -13,42 +13,38 @@ namespace StateSystem
         private float _stunDuration;
         private Game _game;
         private PlayerStateMachine _playerStateMachine;
-        private EnemyIconsView _enemyIconsView;
+        private PlayerHealth _playerHealth;
 
         [Inject]
-        public EnemyWebState([Inject(Id = BindId.ENEMY)] Animator playerAnimator,
-            [Inject(Id = BindId.ENEMY_WEB_STATE)] float attackTime,
-            [Inject(Id = BindId.ENEMY_WEB_STATE)] int stunDuration,
-            Game game,
-            EnemyIconsView enemyIconsView)
+        public EnemyUltState([Inject(Id = BindId.ENEMY)] Animator playerAnimator,
+            [Inject(Id = BindId.ENEMY_ULT_STATE)] float attackTime,
+            [Inject(Id = BindId.ENEMY_ULT_STATE)] int stunDuration,
+            Game game, 
+            PlayerHealth playerHealth)
         {
             _playerAnimator = playerAnimator;
             _attackTime = attackTime;
             _stunDuration = stunDuration;
             _game = game;
-            _enemyIconsView = enemyIconsView;
+            _playerHealth = playerHealth;
         }
 
         public override void Enter(float value = 0)
         {
-            if(_playerStateMachine == null)
+            if (_playerStateMachine == null)
             {
                 _playerStateMachine = _game.PlayerStateMachine;
             }
-            _playerAnimator.SetInteger("State", BindId.ENEMY_WEB_STATE);
+            _playerAnimator.SetInteger("State", BindId.ENEMY_ULT_STATE);
+            _playerStateMachine.ChangeState(typeof(StunState), _stunDuration);
             _currentTime = _attackTime;
-            if (value != 0)
-            {
-                _enemyIconsView.SetTrigger(value);
-            }
         }
 
         public override void Update()
         {
             if (_currentTime <= 0)
             {
-                _playerStateMachine.ChangeState(typeof(StunState), _stunDuration);
-                _enemyIconsView.SetTrigger();
+                _playerHealth.DealDamage(10000);
                 Owner.ChangeState(typeof(EnemyAttackState));
             }
             _currentTime -= Time.deltaTime;

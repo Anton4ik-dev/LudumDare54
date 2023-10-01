@@ -1,3 +1,4 @@
+using Core;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ namespace UISystem
     {
         [SerializeField] private Slider _upperSlider;
         [SerializeField] private Slider _lowerSlider;
+        [SerializeField] private Game _game;
+        [SerializeField] private GameObject _loseView;
 
         private bool _isDecreasingDamage = false;
         private float _decreaseDamagePercent;
@@ -16,7 +19,7 @@ namespace UISystem
         {
             if (_upperSlider.value < _lowerSlider.value)
             {
-                _lowerSlider.value -= 0.2f;
+                _lowerSlider.value -= 0.05f;
             }
             else
             {
@@ -32,6 +35,12 @@ namespace UISystem
                 damage -= (int)decreasedDamage;
             }
             _upperSlider.value -= damage;
+            if (_upperSlider.value <= 0)
+            {
+                // replica
+                _game.PauseGame();
+                _loseView.SetActive(true);
+            }
         }
 
         public void DecreaseDamage(bool isDecrease, float decreaseDamagePercentage)
