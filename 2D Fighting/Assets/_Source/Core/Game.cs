@@ -51,11 +51,10 @@ namespace Core
 
         private void Update()
         {
-            if(_currentTime <= 0)
+            if (_enemyStateMachine.CurrentState.GetType() != typeof(EnemyStunState))
             {
-                if(_enemyStateMachine.CurrentState.GetType() != typeof(EnemyStunState))
+                if (_currentTime <= 0)
                 {
-                    _enemyIndex++;
                     if (_enemyIndex == _qTrigger
                         || _enemyIndex == _wTrigger
                         || _enemyIndex == _eTrigger)
@@ -67,8 +66,9 @@ namespace Core
                     {
                         _enemyStateMachine.ChangeState(_spiderActions[_enemyIndex]);
                     }
+                    _enemyIndex++;
+                    _currentTime = Random.Range(_timeBetweenAttacksMin, _timeBetweenAttacksMax);
                 }
-                _currentTime = Random.Range(_timeBetweenAttacksMin, _timeBetweenAttacksMax);
             }
 
             _currentTime -= Time.deltaTime;

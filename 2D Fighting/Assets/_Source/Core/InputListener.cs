@@ -32,8 +32,11 @@ namespace Core
                             _playerIconsView.AddCharge();
                             _enemyIconsView.SetTrigger();
                         }
-                        _playerIconsView.SetStrongQOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(QState), 2);
+                        if (!_playerIconsView.IsQOnCooldawn)
+                        {
+                            _playerIconsView.SetStrongQOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(QState), 2);
+                        }
                     }
 
                     if (Input.GetKeyDown(KeyCode.W))
@@ -43,8 +46,11 @@ namespace Core
                             _playerIconsView.AddCharge();
                             _enemyIconsView.SetTrigger();
                         }
-                        _playerIconsView.SetStrongWOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(WState), 2);
+                        if (!_playerIconsView.IsWOnCooldawn)
+                        {
+                            _playerIconsView.SetStrongWOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(WState), 2);
+                        }
                     }
 
                     if (Input.GetKeyDown(KeyCode.E))
@@ -54,28 +60,40 @@ namespace Core
                             _playerIconsView.AddCharge();
                             _enemyIconsView.SetTrigger();
                         }
-                        _playerIconsView.SetStrongEOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(EState), 2);
+                        if (!_playerIconsView.IsEOnCooldawn)
+                        {
+                            _playerIconsView.SetStrongEOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(EState), 2);
+                        }
                     }
                 }
                 else
                 {
                     if (Input.GetKeyDown(KeyCode.Q))
                     {
-                        _playerIconsView.SetQOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(QState));
+                        if (!_playerIconsView.IsQOnCooldawn)
+                        {
+                            _playerIconsView.SetQOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(QState), 2);
+                        }
                     }
 
                     if (Input.GetKeyDown(KeyCode.W))
                     {
-                        _playerIconsView.SetWOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(WState));
+                        if (!_playerIconsView.IsWOnCooldawn)
+                        {
+                            _playerIconsView.SetWOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(WState), 2);
+                        }
                     }
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        _playerIconsView.SetEOnCooldawn();
-                        _playerStateMachine.ChangeState(typeof(EState));
+                        if (!_playerIconsView.IsEOnCooldawn)
+                        {
+                            _playerIconsView.SetEOnCooldawn();
+                            _playerStateMachine.ChangeState(typeof(EState), 2);
+                        }
                     }
 
                     if (Input.GetKeyDown(KeyCode.R) && _playerIconsView.RCharges == 3)

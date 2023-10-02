@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,10 @@ namespace UISystem
     public class PlayerIconsView : MonoBehaviour
     {
         [SerializeField] private Color _grey;
+        [SerializeField] private Color _red;
         [SerializeField] private Color _default;
+
+        [SerializeField] private List<Image> _rChargesIcons;
 
         [SerializeField] private float _qCooldawn;
         [SerializeField] private float _wCooldawn;
@@ -41,6 +45,10 @@ namespace UISystem
         private int _rCharges;
 
         public int RCharges => _rCharges;
+
+        public bool IsQOnCooldawn => _isQOnCooldawn;
+        public bool IsWOnCooldawn => _isWOnCooldawn;
+        public bool IsEOnCooldawn => _isEOnCooldawn;
 
         private void Update()
         {
@@ -118,7 +126,10 @@ namespace UISystem
         {
             if(!_isStrongQOnCooldawn)
             {
-                SetQOnCooldawn();
+                _isQOnCooldawn = true;
+                _qCurrentTime = _qCooldawn;
+                _qIcon.color = _grey;
+                _qText.gameObject.SetActive(true);
                 _shiftQIcon.color = _grey;
                 _isStrongQOnCooldawn = true;
             }
@@ -128,7 +139,10 @@ namespace UISystem
         {
             if (!_isStrongWOnCooldawn)
             {
-                SetWOnCooldawn();
+                _isWOnCooldawn = true;
+                _wCurrentTime = _wCooldawn;
+                _wIcon.color = _grey;
+                _wText.gameObject.SetActive(true);
                 _shiftWIcon.color = _grey;
                 _isStrongWOnCooldawn = true;
             }
@@ -138,7 +152,10 @@ namespace UISystem
         {
             if (!_isStrongEOnCooldawn)
             {
-                SetEOnCooldawn();
+                _isEOnCooldawn = true;
+                _eCurrentTime = _eCooldawn;
+                _eIcon.color = _grey;
+                _eText.gameObject.SetActive(true);
                 _shiftEIcon.color = _grey;
                 _isStrongEOnCooldawn = true;
             }
@@ -152,7 +169,11 @@ namespace UISystem
 
         public void AddCharge()
         {
+            if(_rCharges < _rChargesIcons.Count)
+                _rChargesIcons[_rCharges].color = _red;
+
             _rCharges++;
+
             if(_rCharges == 3)
             {
                 _rIcon.color = _default;
