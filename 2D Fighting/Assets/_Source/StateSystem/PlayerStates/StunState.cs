@@ -29,5 +29,10 @@ namespace StateSystem
             }
             _currentTime -= Time.deltaTime;
         }
+
+        public override void Exit()
+        {
+            _currentTime = 0;
+        }
     }
 }

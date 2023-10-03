@@ -37,6 +37,10 @@ namespace StateSystem
             }
             _playerAnimator.SetInteger("State", BindId.ENEMY_ULT_STATE);
             _playerStateMachine.ChangeState(typeof(StunState), _stunDuration);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemyUlt);
             _currentTime = _attackTime;
         }
 
@@ -45,7 +49,6 @@ namespace StateSystem
             if (_currentTime <= 0)
             {
                 _playerHealth.DealDamage(10000);
-                Owner.ChangeState(typeof(EnemyAttackState));
             }
             _currentTime -= Time.deltaTime;
         }

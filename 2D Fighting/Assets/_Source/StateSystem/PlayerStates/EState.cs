@@ -28,6 +28,10 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _playerAnimator.SetInteger("State", BindId.E_STATE);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerE);
             _currentTime = _attackTime;
             if(value != 0)
             {
@@ -40,10 +44,17 @@ namespace StateSystem
             if (_currentTime <= 0)
             {
                 _enemyStateMachine.ChangeState(typeof(EnemyStunState), _stunDuration * _multiplier);
+                _currentTime = _attackTime;
                 _multiplier = 1;
                 Owner.ChangeState(typeof(AttackState));
             }
             _currentTime -= Time.deltaTime;
+        }
+
+        public override void Exit()
+        {
+            _currentTime = _attackTime;
+            _multiplier = 1;
         }
     }
 }

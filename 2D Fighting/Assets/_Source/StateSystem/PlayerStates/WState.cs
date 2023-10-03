@@ -34,6 +34,10 @@ namespace StateSystem
             }
             _playerAnimator.SetInteger("State", BindId.W_STATE);
             _playerHealth.DecreaseDamage(true, _decreaseDamagePercentage * (int)_multiplier);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerW);
             _currentTime = _attackTime;
         }
 
@@ -41,8 +45,6 @@ namespace StateSystem
         {
             if (_currentTime <= 0)
             {
-                _playerHealth.DecreaseDamage(false, _decreaseDamagePercentage * (int)_multiplier);
-                _multiplier = 1;
                 Owner.ChangeState(typeof(AttackState));
             }
             _currentTime -= Time.deltaTime;
@@ -50,7 +52,7 @@ namespace StateSystem
 
         public override void Exit()
         {
-            _playerHealth.DecreaseDamage(false, _decreaseDamagePercentage * (int)_multiplier);
+            _playerHealth.DecreaseDamage(false, 0);
             _multiplier = 1;
         }
     }

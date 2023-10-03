@@ -5,9 +5,9 @@ namespace UISystem
 {
     public class EnemyIconsView : MonoBehaviour
     {
-        [SerializeField] private Color _red;
-        [SerializeField] private Color _blue;
-        [SerializeField] private Color _green;
+        [SerializeField] private Sprite _q;
+        [SerializeField] private Sprite _w;
+        [SerializeField] private Sprite _e;
 
         [SerializeField] private Image _triggerIcon;
 
@@ -24,7 +24,7 @@ namespace UISystem
             if (value == 1 && !_isQTrigger)
             {
                 _isQTrigger = true;
-                _triggerIcon.color = _red;
+                _triggerIcon.sprite = _q;
                 _triggerIcon.gameObject.SetActive(true);
             }
             else if ((value == 1 || value == 0) && _isQTrigger)
@@ -36,7 +36,7 @@ namespace UISystem
             if (value == 2 && !_isWTrigger)
             {
                 _isWTrigger = true;
-                _triggerIcon.color = _blue;
+                _triggerIcon.sprite = _w;
                 _triggerIcon.gameObject.SetActive(true);
             }
             else if ((value == 2 || value == 0) && _isWTrigger)
@@ -48,7 +48,7 @@ namespace UISystem
             if (value == 3 && !_isETrigger)
             {
                 _isETrigger = true;
-                _triggerIcon.color = _green;
+                _triggerIcon.sprite = _e;
                 _triggerIcon.gameObject.SetActive(true);
             }
             else if ((value == 3 || value == 0) && _isETrigger)

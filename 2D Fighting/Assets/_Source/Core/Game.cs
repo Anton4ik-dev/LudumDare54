@@ -39,6 +39,8 @@ namespace Core
         private int _enemyIndex = 0;
         private int _triggerIndex = 0;
 
+        private bool _isFirst = true;
+
         public PlayerStateMachine PlayerStateMachine => _playerStateMachine;
 
         [Inject]
@@ -47,6 +49,7 @@ namespace Core
             _playerStateMachine = (PlayerStateMachine)playerStateMachine;
             _enemyStateMachine = (EnemyStateMachine)enemyStateMachine;
             PauseGame();
+            UnlockMouse();
         }
 
         private void Update()
@@ -68,6 +71,8 @@ namespace Core
                     }
                     _enemyIndex++;
                     _currentTime = Random.Range(_timeBetweenAttacksMin, _timeBetweenAttacksMax);
+                    if (_enemyIndex == _spiderActions.Count)
+                        _currentTime = 1000;
                 }
             }
 
@@ -79,6 +84,16 @@ namespace Core
 
         public void StartGame()
         {
+            if(_isFirst)
+            {
+                SoundSystem
+                    .SoundSingleton
+                    .Instance
+                    .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemyHello);
+                _isFirst = false;
+            }
+            _enemyIndex = 0;
+            _triggerIndex = 0;
             _input.enabled = true;
             enabled = true;
             Cursor.visible = false;
@@ -90,8 +105,28 @@ namespace Core
 
         public void PauseGame()
         {
+            _playerStateMachine.ChangeState(typeof(IdleState));
+            _enemyStateMachine.ChangeState(typeof(EnemyIdleState));
             _input.enabled = false;
             enabled = false;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            _enemyIndex = 0;
+            _triggerIndex = 0;
+        }
+
+        public void EndGame()
+        {
+            _playerStateMachine.ChangeState(typeof(FinishState));
+            _enemyStateMachine.ChangeState(typeof(EnemyFinishState));
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            _enemyIndex = 0;
+            _triggerIndex = 0;
+        }
+
+        public void UnlockMouse()
+        {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }

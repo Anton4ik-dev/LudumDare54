@@ -36,6 +36,10 @@ namespace StateSystem
             if (_currentTime <= 0)
             {
                 _playerHealth.DealDamage(_damage);
+                SoundSystem
+                    .SoundSingleton
+                    .Instance
+                    .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemyAttack);
                 _currentTime = _attackTime;
             }
             _currentTime -= Time.deltaTime;

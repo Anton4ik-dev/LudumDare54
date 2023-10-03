@@ -18,6 +18,10 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _enemyAnimator.SetInteger("State", BindId.ENEMY_STUN_STATE);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemyStun);
             _currentTime = value;
         }
 
@@ -28,6 +32,11 @@ namespace StateSystem
                 Owner.ChangeState(typeof(EnemyAttackState));
             }
             _currentTime -= Time.deltaTime;
+        }
+
+        public override void Exit()
+        {
+            _currentTime = 0;
         }
     }
 }

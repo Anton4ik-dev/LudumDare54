@@ -175,6 +175,12 @@ namespace Core
             #endregion
             #region PlayerStates
             Container.Bind<AState>()
+                .WithId(BindId.PLAYER)
+                .To<IdleState>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<AState>()
                 .WithId(BindId.ATTACK_STATE)
                 .To<AttackState>()
                 .AsSingle()
@@ -209,8 +215,20 @@ namespace Core
                 .To<StunState>()
                 .AsSingle()
                 .NonLazy();
+
+            Container.Bind<AState>()
+                .WithId(BindId.FINISH_STATE)
+                .To<FinishState>()
+                .AsSingle()
+                .NonLazy();
             #endregion
             #region EnemyStates
+            Container.Bind<AState>()
+                .WithId(BindId.ENEMY)
+                .To<EnemyIdleState>()
+                .AsSingle()
+                .NonLazy();
+
             Container.Bind<AState>()
                 .WithId(BindId.ENEMY_ATTACK_STATE)
                 .To<EnemyAttackState>()
@@ -238,6 +256,12 @@ namespace Core
             Container.Bind<AState>()
                 .WithId(BindId.ENEMY_ULT_STATE)
                 .To<EnemyUltState>()
+                .AsSingle()
+                .NonLazy();
+
+            Container.Bind<AState>()
+                .WithId(BindId.ENEMY_FINISH_STATE)
+                .To<EnemyFinishState>()
                 .AsSingle()
                 .NonLazy();
             #endregion
@@ -287,11 +311,13 @@ namespace Core
         public const int E_STATE = 5;
         public const int R_STATE = 6;
         public const int STUN_STATE = 7;
+        public const int FINISH_STATE = 13;
 
         public const int ENEMY_ULT_STATE = 8;
         public const int ENEMY_ATTACK_STATE = 9;
         public const int ENEMY_STUN_STATE = 10;
         public const int ENEMY_SPECIAL_STATE = 11;
         public const int ENEMY_WEB_STATE = 12;
+        public const int ENEMY_FINISH_STATE = 14;
     }
 }

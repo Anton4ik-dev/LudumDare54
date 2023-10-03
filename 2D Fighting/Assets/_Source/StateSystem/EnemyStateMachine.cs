@@ -17,7 +17,9 @@ namespace StateSystem
           [Inject(Id = BindId.ENEMY_STUN_STATE)] AState stunState,
           [Inject(Id = BindId.ENEMY_SPECIAL_STATE)] AState specialState,
           [Inject(Id = BindId.ENEMY_WEB_STATE)] AState webState,
-          [Inject(Id = BindId.ENEMY_ULT_STATE)] AState ultState)
+          [Inject(Id = BindId.ENEMY_ULT_STATE)] AState ultState,
+          [Inject(Id = BindId.ENEMY)] AState idleState,
+          [Inject(Id = BindId.ENEMY_FINISH_STATE)] AState finishState)
         {
             _states = new Dictionary<Type, AState>()
             {
@@ -25,7 +27,9 @@ namespace StateSystem
                 { typeof(EnemyStunState), stunState },
                 { typeof(EnemySpecialState), specialState },
                 { typeof(EnemyWebState), webState },
-                { typeof(EnemyUltState), ultState }
+                { typeof(EnemyUltState), ultState },
+                { typeof(EnemyIdleState), idleState },
+                { typeof(EnemyFinishState), finishState }
             };
 
             foreach (var state in _states)

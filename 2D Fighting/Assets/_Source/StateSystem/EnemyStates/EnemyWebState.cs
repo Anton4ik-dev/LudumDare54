@@ -48,10 +48,20 @@ namespace StateSystem
             if (_currentTime <= 0)
             {
                 _playerStateMachine.ChangeState(typeof(StunState), _stunDuration);
+                SoundSystem
+                    .SoundSingleton
+                    .Instance
+                    .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemyWeb);
                 _enemyIconsView.SetTrigger();
                 Owner.ChangeState(typeof(EnemyAttackState));
             }
             _currentTime -= Time.deltaTime;
+        }
+
+        public override void Exit()
+        {
+            _enemyIconsView.SetTrigger();
+            _currentTime = _attackTime;
         }
     }
 }

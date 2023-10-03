@@ -29,6 +29,10 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _playerAnimator.SetInteger("State", BindId.Q_STATE);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerQ);
             _currentTime = _attackTime;
             if(value != 0)
             {
@@ -40,11 +44,20 @@ namespace StateSystem
         {
             if (_currentTime <= 0)
             {
-                _enemyHealth.DealDamage(_damage * (int)_multiplier);
+                if(_enemyHealth.DealDamage(_damage * (int)_multiplier))
+                {
+                    Owner.ChangeState(typeof(AttackState));
+                }
                 _multiplier = 1;
-                Owner.ChangeState(typeof(AttackState));
+                _currentTime = _attackTime;
             }
             _currentTime -= Time.deltaTime;
+        }
+
+        public override void Exit()
+        {
+            _multiplier = 1;
+            _currentTime = _attackTime;
         }
     }
 }

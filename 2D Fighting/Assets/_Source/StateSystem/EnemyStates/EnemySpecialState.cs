@@ -31,6 +31,10 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _enemyAnimator.SetInteger("State", BindId.ENEMY_SPECIAL_STATE);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotEnemy(SoundSystem.SoundSingleton.Instance.SoundSo.EnemySpicial);
             _currentTime = _attackTime;
             if (value != 0)
             {
@@ -47,6 +51,12 @@ namespace StateSystem
                 Owner.ChangeState(typeof(EnemyAttackState));
             }
             _currentTime -= Time.deltaTime;
+        }
+
+        public override void Exit()
+        {
+            _enemyIconsView.SetTrigger();
+            _currentTime = _attackTime;
         }
     }
 }

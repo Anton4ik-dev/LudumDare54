@@ -18,7 +18,9 @@ namespace StateSystem
           [Inject(Id = BindId.W_STATE)] AState wState,
           [Inject(Id = BindId.E_STATE)] AState eState,
           [Inject(Id = BindId.R_STATE)] AState rState,
-          [Inject(Id = BindId.STUN_STATE)] AState stunState)
+          [Inject(Id = BindId.STUN_STATE)] AState stunState,
+          [Inject(Id = BindId.PLAYER)] AState idleState,
+          [Inject(Id = BindId.FINISH_STATE)] AState finishState)
         {
             _states = new Dictionary<Type, AState>()
             { 
@@ -27,7 +29,9 @@ namespace StateSystem
                 { typeof(WState), wState },
                 { typeof(EState), eState },
                 { typeof(RState), rState },
-                { typeof(StunState), stunState }
+                { typeof(StunState), stunState },
+                { typeof(IdleState), idleState },
+                { typeof(FinishState), finishState }
             };
 
             foreach (var state in _states)

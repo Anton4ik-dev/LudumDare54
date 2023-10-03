@@ -31,6 +31,10 @@ namespace StateSystem
         public override void Enter(float value = 0)
         {
             _playerAnimator.SetInteger("State", BindId.R_STATE);
+            SoundSystem
+                .SoundSingleton
+                .Instance
+                .PlayOneShotPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerR);
             _enemyStateMachine.ChangeState(typeof(EnemyStunState), _stunDuration);
             _currentTime = _attackTime;
         }
@@ -40,7 +44,6 @@ namespace StateSystem
             if (_currentTime <= 0)
             {
                 _enemyHealth.DealDamage(10000);
-                Owner.ChangeState(typeof(AttackState));
             }
             _currentTime -= Time.deltaTime;
         }
