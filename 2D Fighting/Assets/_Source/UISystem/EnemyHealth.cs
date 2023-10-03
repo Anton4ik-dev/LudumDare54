@@ -101,15 +101,8 @@ namespace UISystem
 
         public void DealSecretDamage(int damage)
         {
-            _roundWonText.SetActive(true);
-            _currentTime = _pauseBetweenRounds;
-            _game.PauseGame();
-            _isPausedGame = true;
-
-            _wonRounds[_wonRoundCounter].color = _marked;
-            _wonRoundCounter++;
-            _wonRounds[_wonRoundCounter].color = _marked;
-            _wonRoundCounter++;
+            _wonRounds[0].color = _marked;
+            _wonRounds[1].color = _marked;
 
             _upperSlider.value = _upperSlider.maxValue;
             _lowerSlider.value = _lowerSlider.maxValue;
@@ -117,13 +110,9 @@ namespace UISystem
             _playerLowerSlider.value = _playerLowerSlider.maxValue;
             _playerIconsView.ResetAllVariables();
 
-            if (_wonRoundCounter == 2)
-            {
-                _roundWonText.SetActive(false);
-                _isFinished = true;
-                _game.EndGame();
-                _currentTime = _pauseAfterWin;
-            }
+            _isFinished = true;
+            _game.EndGame();
+            _currentTime = _pauseAfterWin;
         }
     }
 }

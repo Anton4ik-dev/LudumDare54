@@ -120,7 +120,6 @@ namespace UISystem
 
                 if (_upperSlider.value <= 0)
                 {
-                    // replica
                     _roundLoseText.SetActive(true);
                     _currentTime = _pauseBetweenRounds;
                     _game.PauseGame();

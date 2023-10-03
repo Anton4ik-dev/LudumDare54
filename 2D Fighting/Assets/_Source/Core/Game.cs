@@ -109,8 +109,6 @@ namespace Core
             _enemyStateMachine.ChangeState(typeof(EnemyIdleState));
             _input.enabled = false;
             enabled = false;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             _enemyIndex = 0;
             _triggerIndex = 0;
         }
@@ -119,8 +117,6 @@ namespace Core
         {
             _playerStateMachine.ChangeState(typeof(FinishState));
             _enemyStateMachine.ChangeState(typeof(EnemyFinishState));
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             _enemyIndex = 0;
             _triggerIndex = 0;
         }
