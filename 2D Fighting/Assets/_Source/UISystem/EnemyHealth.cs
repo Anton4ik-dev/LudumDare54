@@ -74,7 +74,6 @@ namespace UISystem
             tween.OnComplete(() => _enemy.DOColor(Color.white, 0.25f));
             if (_upperSlider.value <= 0)
             {
-                // replica
                 _roundWonText.SetActive(true);
                 _currentTime = _pauseBetweenRounds;
                 _game.PauseGame();
@@ -98,6 +97,33 @@ namespace UISystem
                 return false;
             }
             return true;
+        }
+
+        public void DealSecretDamage(int damage)
+        {
+            _roundWonText.SetActive(true);
+            _currentTime = _pauseBetweenRounds;
+            _game.PauseGame();
+            _isPausedGame = true;
+
+            _wonRounds[_wonRoundCounter].color = _marked;
+            _wonRoundCounter++;
+            _wonRounds[_wonRoundCounter].color = _marked;
+            _wonRoundCounter++;
+
+            _upperSlider.value = _upperSlider.maxValue;
+            _lowerSlider.value = _lowerSlider.maxValue;
+            _playerUpperSlider.value = _playerUpperSlider.maxValue;
+            _playerLowerSlider.value = _playerLowerSlider.maxValue;
+            _playerIconsView.ResetAllVariables();
+
+            if (_wonRoundCounter == 2)
+            {
+                _roundWonText.SetActive(false);
+                _isFinished = true;
+                _game.EndGame();
+                _currentTime = _pauseAfterWin;
+            }
         }
     }
 }

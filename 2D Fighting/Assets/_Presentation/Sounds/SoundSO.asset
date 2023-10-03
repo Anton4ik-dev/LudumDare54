@@ -18,6 +18,7 @@ MonoBehaviour:
   PlayerE: {fileID: 8300000, guid: 6935678a9021b7046966b92c8226ecde, type: 3}
   PlayerR: {fileID: 8300000, guid: 4a9d1c8dda94f3046910abc11f4ab422, type: 3}
   PlayerFinale: {fileID: 8300000, guid: 49802c0d7e18023488b0cd3444cec8fe, type: 3}
+  PlayerSecret: {fileID: 8300000, guid: 0b40f7f1c37943841a9bb759e2bd5aaf, type: 3}
   EnemyHello: {fileID: 8300000, guid: 1735503606119fb438403490aa724cd5, type: 3}
   EnemyAttack: {fileID: 8300000, guid: 7b23a1289a01b144abb31641904e3633, type: 3}
   EnemySpicial: {fileID: 8300000, guid: 39a191292425b09459eb324236acb086, type: 3}

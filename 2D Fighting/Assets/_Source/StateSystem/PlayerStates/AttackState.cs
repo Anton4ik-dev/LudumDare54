@@ -39,7 +39,7 @@ namespace StateSystem
                 SoundSystem
                     .SoundSingleton
                     .Instance
-                    .PlayOneShotPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerAttack);
+                    .PlayOneShotFireballPlayer(SoundSystem.SoundSingleton.Instance.SoundSo.PlayerAttack);
                 _currentTime = _attackTime;
             }
             _currentTime -= Time.deltaTime;

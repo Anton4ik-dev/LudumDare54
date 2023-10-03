@@ -12,6 +12,7 @@ namespace ScriptableObjects
         public AudioClip PlayerE;
         public AudioClip PlayerR;
         public AudioClip PlayerFinale;
+        public AudioClip PlayerSecret;
         [Space]
         [Header("ENEMY")]
         public AudioClip EnemyHello;

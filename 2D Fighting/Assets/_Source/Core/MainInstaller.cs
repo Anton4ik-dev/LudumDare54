@@ -11,6 +11,8 @@ namespace Core
     {
         [SerializeField] private AudioSource _playerAudioSource;
         [SerializeField] private AudioSource _enemyAudioSource;
+        [SerializeField] private AudioSource _fireballEnemyAudioSource;
+        [SerializeField] private AudioSource _fireballAudioSource;
         [SerializeField] private SoundSO _soundSo;
         
         [SerializeField] private Animator _playerAnimator;
@@ -287,6 +289,16 @@ namespace Core
                 .WithId(BindId.ENEMY)
                 .FromInstance(_enemyAudioSource)
                 .NonLazy();
+
+            Container.Bind<AudioSource>()
+                .WithId(BindId.ENEMY_ATTACK_STATE)
+                .FromInstance(_fireballEnemyAudioSource)
+                .NonLazy(); 
+            
+            Container.Bind<AudioSource>()
+                 .WithId(BindId.ATTACK_STATE)
+                 .FromInstance(_fireballAudioSource)
+                 .NonLazy();
 
             Container.Bind<SoundSO>()
                 .FromInstance(_soundSo)
