@@ -70,7 +70,12 @@ namespace UISystem
                 float decreasedDamage = damage / 100f * _decreaseDamagePercent;
                 damage -= (int)decreasedDamage;
             }
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("damage", damage);
+            parameters.Add("oldHealth", _upperSlider.value);
             _upperSlider.value -= damage;
+            parameters.Add("newHealth", _upperSlider.value);
+            AppMetrica.Instance.ReportEvent("hard event", parameters);
 
             Tween tween = _player.DOColor(_onDamage, 0.25f);
             tween.OnComplete(() => _player.DOColor(Color.white, 0.25f));
@@ -93,6 +98,7 @@ namespace UISystem
                 {
                     _isFinished = true;
                     _game.PauseGame();
+                    _game.UnlockMouse();
                     _loseView.SetActive(true);
                 }
             }
@@ -135,6 +141,7 @@ namespace UISystem
                     {
                         _isFinished = true;
                         _game.PauseGame();
+                        _game.UnlockMouse();
                         _loseView.SetActive(true);
                     }
                 }

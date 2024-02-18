@@ -10,14 +10,14 @@ namespace Core
 {
     public class Game : MonoBehaviour
     {
-        [SerializeField] private InputListener _input;
-        [SerializeField] private int _timeBetweenAttacksMin;
-        [SerializeField] private int _timeBetweenAttacksMax;
-        [SerializeField] private int _qTrigger;
-        [SerializeField] private int _wTrigger;
-        [SerializeField] private int _eTrigger;
+        [SerializeField] private InputListener input;
+        [SerializeField] private int timeBetweenAttacksMin;
+        [SerializeField] private int timeBetweenAttacksMax;
+        [SerializeField] private int qTrigger;
+        [SerializeField] private int wTrigger;
+        [SerializeField] private int eTrigger;
 
-        private List<Type> _spiderActions = new List<Type>
+        private readonly List<Type> _spiderActions = new List<Type>
         {
             typeof(EnemySpecialState),
             typeof(EnemyWebState),
@@ -58,9 +58,9 @@ namespace Core
             {
                 if (_currentTime <= 0)
                 {
-                    if (_enemyIndex == _qTrigger
-                        || _enemyIndex == _wTrigger
-                        || _enemyIndex == _eTrigger)
+                    if (_enemyIndex == qTrigger
+                        || _enemyIndex == wTrigger
+                        || _enemyIndex == eTrigger)
                     {
                         _triggerIndex++;
                         _enemyStateMachine.ChangeState(_spiderActions[_enemyIndex], _triggerIndex);
@@ -70,7 +70,7 @@ namespace Core
                         _enemyStateMachine.ChangeState(_spiderActions[_enemyIndex]);
                     }
                     _enemyIndex++;
-                    _currentTime = Random.Range(_timeBetweenAttacksMin, _timeBetweenAttacksMax);
+                    _currentTime = Random.Range(timeBetweenAttacksMin, timeBetweenAttacksMax);
                     if (_enemyIndex == _spiderActions.Count)
                         _currentTime = 1000;
                 }
@@ -84,6 +84,7 @@ namespace Core
 
         public void StartGame()
         {
+	    AppMetrica.Instance.ReportEvent("Game init");
             if(_isFirst)
             {
                 SoundSystem
@@ -94,20 +95,20 @@ namespace Core
             }
             _enemyIndex = 0;
             _triggerIndex = 0;
-            _input.enabled = true;
+            input.enabled = true;
             enabled = true;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             _playerStateMachine.ChangeState(typeof(AttackState));
             _enemyStateMachine.ChangeState(typeof(EnemyAttackState));
-            _currentTime = Random.Range(_timeBetweenAttacksMin, _timeBetweenAttacksMax);
+            _currentTime = Random.Range(timeBetweenAttacksMin, timeBetweenAttacksMax);
         }
 
         public void PauseGame()
         {
             _playerStateMachine.ChangeState(typeof(IdleState));
             _enemyStateMachine.ChangeState(typeof(EnemyIdleState));
-            _input.enabled = false;
+            input.enabled = false;
             enabled = false;
             _enemyIndex = 0;
             _triggerIndex = 0;
