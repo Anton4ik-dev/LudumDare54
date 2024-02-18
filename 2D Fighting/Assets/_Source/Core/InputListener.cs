@@ -29,6 +29,7 @@ namespace Core
                     {
                         if (!_playerIconsView.IsStrongQOnCooldawn)
                         {
+	                    AppMetrica.Instance.ReportEvent("ShiftQ");
                             if (_enemyIconsView.IsQTrigger)
                             {
                                 _playerIconsView.AddCharge();
@@ -43,6 +44,7 @@ namespace Core
                     {
                         if (!_playerIconsView.IsStrongWOnCooldawn)
                         {
+	                    AppMetrica.Instance.ReportEvent("ShiftW");
                             if (_enemyIconsView.IsWTrigger)
                             {
                                 _playerIconsView.AddCharge();
@@ -57,6 +59,7 @@ namespace Core
                     {
                         if (!_playerIconsView.IsStrongEOnCooldawn)
                         {
+	                    AppMetrica.Instance.ReportEvent("ShiftE");
                             if (_enemyIconsView.IsETrigger)
                             {
                                 _playerIconsView.AddCharge();
@@ -73,6 +76,7 @@ namespace Core
                     {
                         if (!_playerIconsView.IsQOnCooldawn)
                         {
+	                    AppMetrica.Instance.ReportEvent("Q");
                             _playerIconsView.SetQOnCooldawn();
                             _playerStateMachine.ChangeState(typeof(QState));
                         }
@@ -80,6 +84,7 @@ namespace Core
 
                     if (Input.GetKeyDown(KeyCode.W))
                     {
+	                AppMetrica.Instance.ReportEvent("W");
                         if (!_playerIconsView.IsWOnCooldawn)
                         {
                             _playerIconsView.SetWOnCooldawn();
@@ -89,6 +94,7 @@ namespace Core
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
+	                AppMetrica.Instance.ReportEvent("E");
                         if (!_playerIconsView.IsEOnCooldawn)
                         {
                             _playerIconsView.SetEOnCooldawn();
